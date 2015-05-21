@@ -27,9 +27,7 @@
     return self;
 }
 
-- (void) updateWithDate:(NSDate *) date {
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.dateFormat = @"dd";
-    self.dateLabel.text = [dateFormatter stringFromDate:date];
+- (void) updateWithDateComponents:(NSDateComponents *) dateComponents {
+    self.dateLabel.text = @(dateComponents.day).stringValue;
 }
 @end

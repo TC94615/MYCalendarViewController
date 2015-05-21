@@ -218,7 +218,8 @@ typedef struct {
                                                                                forIndexPath:indexPath];
     cell.backgroundColor = [UIColor grayColor];
     NSDate *date = self.dateArray[indexPath.row];
-    [cell updateWithDate:date];
+    [cell updateWithDateComponents:[self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSWeekdayCalendarUnit)
+                                                    fromDate:date]];
     return cell;
 }
 
