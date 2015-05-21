@@ -73,22 +73,19 @@ typedef struct {
 - (void) commonInitializer {
     self.calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     self.calendar.locale = [NSLocale currentLocale];
-    NSDateComponents *nowYearMonthComponents = [self.calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth)
-                                                                fromDate:[NSDate date]];
-    NSDate *now = [self.calendar dateFromComponents:nowYearMonthComponents];
-
     self.monthShowing = [NSDate date];
-    NSDate *date = [self _firstDay:self.monthShowing];
-
-    NSDate *endDate = [self _firstDayOfNextMonthContainingDate:self.monthShowing];
+    NSDate *beginDate = [self firstDay:self.monthShowing];
+    NSDate *endDate = [self lastDay:self.monthShowing];
+    NSLog(@">>>>>>>>>>>> beginDate = %@", beginDate);
+    NSLog(@">>>>>>>>>>>> endDate = %@", endDate);
     NSMutableArray *dateArray = [@[] mutableCopy];
-    while ([date laterDate:endDate] != date) {
+    while ([beginDate laterDate:endDate] != beginDate) {
         NSDateComponents *todayYearMonthDayComponents = [self.calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekday)
-                                                                         fromDate:date];
+                                                                         fromDate:beginDate];
         NSDate *thisDay = [self.calendar dateFromComponents:todayYearMonthDayComponents];
-        [dateArray addObject:date];
+        [dateArray addObject:beginDate];
 
-        date = [self _nextDay:date];
+        beginDate = [self _nextDay:beginDate];
     }
     self.dateArray = [dateArray copy];
 
@@ -102,56 +99,93 @@ typedef struct {
                                                object:nil];
 }
 
-- (NSDate *) _firstDay:(NSDate *) date {
-    NSDateComponents *comps = [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit)
-                                               fromDate:date];
-    comps.day = 1;
-    NSDate *thisday = [self.calendar dateFromComponents:comps];
-    NSDateComponents *components = [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSWeekdayCalendarUnit)
-                                                    fromDate:thisday];
-    switch (components.weekday) {
+- (NSDate *) firstDay:(NSDate *) date {
+    NSDateComponents *thisDateComponents = [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit)
+                                                            fromDate:date];
+    thisDateComponents.day = 1;
+    NSDate *firstDateInThisMonth = [self.calendar dateFromComponents:thisDateComponents];
+    NSDateComponents *firstDateComponentsInThisMonth =
+      [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSWeekdayCalendarUnit)
+                       fromDate:firstDateInThisMonth];
+    switch (firstDateComponentsInThisMonth.weekday) {
         case 1:
-            [components setDay:components.day - 7];
+            [firstDateComponentsInThisMonth setDay:firstDateComponentsInThisMonth.day - 7];
             break;
         case 2:
-            [components setDay:components.day - 1];
+            [firstDateComponentsInThisMonth setDay:firstDateComponentsInThisMonth.day - 1];
             break;
         case 3:
-            [components setDay:components.day - 2];
+            [firstDateComponentsInThisMonth setDay:firstDateComponentsInThisMonth.day - 2];
             break;
         case 4:
-            [components setDay:components.day - 3];
+            [firstDateComponentsInThisMonth setDay:firstDateComponentsInThisMonth.day - 3];
             break;
         case 5:
-            [components setDay:components.day - 4];
+            [firstDateComponentsInThisMonth setDay:firstDateComponentsInThisMonth.day - 4];
             break;
         case 6:
-            [components setDay:components.day - 5];
+            [firstDateComponentsInThisMonth setDay:firstDateComponentsInThisMonth.day - 5];
             break;
         case 7:
-            [components setDay:components.day - 6];
+            [firstDateComponentsInThisMonth setDay:firstDateComponentsInThisMonth.day - 6];
             break;
         default:
             break;
     }
-    NSDate *firstDay = [self.calendar dateFromComponents:components];
-    return [self.calendar dateFromComponents:components];
+    return [self.calendar dateFromComponents:firstDateComponentsInThisMonth];
 }
 
-- (NSDate *) _firstDayOfMonthContainingDate:(NSDate *) date {
-    NSDateComponents *comps = [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit)
-                                               fromDate:date];
-    comps.day = 1;
-    return [self.calendar dateFromComponents:comps];
+- (NSDate *) lastDay:(NSDate *) date {
+    NSDateComponents *thisDateComponents = [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit)
+                                                            fromDate:date];
+    thisDateComponents.day = 0;
+    thisDateComponents.month = thisDateComponents.month + 1;
+    NSDate *lastDateInThisMonth = [self.calendar dateFromComponents:thisDateComponents];
+    NSDateComponents *lastDateComponentsInThisMonth =
+      [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSWeekdayCalendarUnit)
+                       fromDate:lastDateInThisMonth];
+    switch (lastDateComponentsInThisMonth.weekday) {
+        case 1:
+            [lastDateComponentsInThisMonth setDay:lastDateComponentsInThisMonth.day + 7];
+            break;
+        case 2:
+            [lastDateComponentsInThisMonth setDay:lastDateComponentsInThisMonth.day + 6];
+            break;
+        case 3:
+            [lastDateComponentsInThisMonth setDay:lastDateComponentsInThisMonth.day + 5];
+            break;
+        case 4:
+            [lastDateComponentsInThisMonth setDay:lastDateComponentsInThisMonth.day + 4];
+            break;
+        case 5:
+            [lastDateComponentsInThisMonth setDay:lastDateComponentsInThisMonth.day + 3];
+            break;
+        case 6:
+            [lastDateComponentsInThisMonth setDay:lastDateComponentsInThisMonth.day + 2];
+            break;
+        case 7:
+            [lastDateComponentsInThisMonth setDay:lastDateComponentsInThisMonth.day + 1];
+            break;
+        default:
+            break;
+    }
+    return [self.calendar dateFromComponents:lastDateComponentsInThisMonth];
 }
 
-- (NSDate *) _firstDayOfNextMonthContainingDate:(NSDate *) date {
-    NSDateComponents *comps = [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit)
-                                               fromDate:date];
-    comps.day = 1;
-    comps.month = comps.month + 1;
-    return [self.calendar dateFromComponents:comps];
-}
+//- (NSDate *) _firstDayOfMonthContainingDate:(NSDate *) date {
+//    NSDateComponents *comps = [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit)
+//                                               fromDate:date];
+//    comps.day = 1;
+//    return [self.calendar dateFromComponents:comps];
+//}
+
+//- (NSDate *) _firstDayOfNextMonthContainingDate:(NSDate *) date {
+//    NSDateComponents *comps = [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit)
+//                                               fromDate:date];
+//    comps.day = 1;
+//    comps.month = comps.month + 1;
+//    return [self.calendar dateFromComponents:comps];
+//}
 
 - (NSDate *) _nextDay:(NSDate *) date {
     NSDateComponents *comps = [[NSDateComponents alloc] init];
