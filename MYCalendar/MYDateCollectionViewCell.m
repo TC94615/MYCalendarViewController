@@ -32,8 +32,9 @@
     return self;
 }
 
-- (void) updateWithDateComponents:(NSDateComponents *) dateComponents {
+- (void) updateWithDateComponents:(NSDateComponents *) dateComponents dayInThisMonth:(BOOL) dayInThisMonth {
     self.dateLabel.text = @(dateComponents.day).stringValue;
+    self.dateLabel.textColor = dayInThisMonth ? [UIColor textDarkGray] : [UIColor lightGrayColor];
 
 }
 @end

@@ -196,8 +196,11 @@ static NSString *const HeaderIdentifier = @"HeaderIdentifier";
     MYDateCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:MyDateCollectionViewCellReuseIdentifier
                                                                                forIndexPath:indexPath];
     NSDate *date = self.dateArray[indexPath.row];
-    [cell updateWithDateComponents:[self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSWeekdayCalendarUnit)
-                                                    fromDate:date]];
+    NSDateComponents *dateComponents = [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSWeekdayCalendarUnit)
+                                                        fromDate:date];
+    NSInteger thisMonth = [[NSCalendar currentCalendar] components:NSMonthCalendarUnit
+                                                          fromDate:self.monthShowing].month;
+    [cell updateWithDateComponents:dateComponents dayInThisMonth:dateComponents.month == thisMonth];
     if ([self.delegate respondsToSelector:@selector(calendarCell:forDate:)]) {
         [self.delegate calendarCell:cell forDate:date];
     }

@@ -10,5 +10,5 @@ static NSString *const MyDateCollectionViewCellReuseIdentifier = @"MyDateCollect
 
 @interface MYDateCollectionViewCell : UICollectionViewCell
 
-- (void) updateWithDateComponents:(NSDateComponents *) dateComponents;
+- (void) updateWithDateComponents:(NSDateComponents *) dateComponents dayInThisMonth:(BOOL) dayInThisMonth;
 @end
