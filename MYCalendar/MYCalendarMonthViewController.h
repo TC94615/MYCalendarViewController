@@ -6,10 +6,14 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+@class MYDateCollectionViewCell;
+
 @protocol MYCalendarMonthViewControllerDelegate<NSObject>
 - (void) tapBackButton:(NSInteger) index;
 
 - (void) tapForwardButton:(NSInteger) index;
+
+- (void) didSelectItem:(MYDateCollectionViewCell *) cell;
 @end
 
 @interface MYCalendarMonthViewController : UIViewController

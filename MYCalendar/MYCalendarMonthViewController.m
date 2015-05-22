@@ -221,11 +221,15 @@ static NSString *const HeaderIdentifier = @"HeaderIdentifier";
     NSDate *date = self.dateArray[indexPath.row];
     [cell updateWithDateComponents:[self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSWeekdayCalendarUnit)
                                                     fromDate:date]];
+
     return cell;
 }
 
 - (void) collectionView:(UICollectionView *) collectionView didSelectItemAtIndexPath:(NSIndexPath *) indexPath {
-    NSLog(@">>>>>>>>>>>> self.dateArray[indexPath.row] = %@", self.dateArray[indexPath.row]);
+    MYDateCollectionViewCell *item = (MYDateCollectionViewCell *) [collectionView cellForItemAtIndexPath:indexPath];
+    if ([self.delegate respondsToSelector:@selector(didSelectItem:)]) {
+        [self.delegate didSelectItem:item];
+    }
 }
 
 #pragma mark MYCollectionHeaderViewDelegate

@@ -7,6 +7,7 @@
 #import "MYCalendarMonthViewController.h"
 #import "View+MASAdditions.h"
 #import "UIDimen.h"
+#import "MYDateCollectionViewCell.h"
 
 @interface MYCalendarViewController()<UIPageViewControllerDelegate, UIPageViewControllerDataSource, MYCalendarMonthViewControllerDelegate>
 @property (nonatomic, strong) UIPageViewController *pageViewController;
@@ -59,6 +60,12 @@
                                       direction:UIPageViewControllerNavigationDirectionForward
                                        animated:YES completion:nil];
 }
+
+- (void) didSelectItem:(MYDateCollectionViewCell *) cell {
+    NSLog(@">>>>>>>>>>>> cell = %@", cell);
+
+}
+
 
 - (MYCalendarMonthViewController *) viewControllerAtIndex:(NSInteger) index {
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
