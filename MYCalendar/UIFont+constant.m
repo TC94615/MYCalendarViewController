@@ -7,10 +7,14 @@
 
 @implementation UIFont(constant)
 + (UIFont *) weekdayHeaderFont {
-    return [UIFont systemFontOfSize:10];
+    return [UIFont boldSystemFontOfSize:8];
 }
 
 + (UIFont *) boldTitleFont {
     return [UIFont boldSystemFontOfSize:16];
+}
+
++ (UIFont *) cellFont {
+    return [UIFont systemFontOfSize:10];
 }
 @end

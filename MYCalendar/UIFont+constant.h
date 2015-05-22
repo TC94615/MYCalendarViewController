@@ -10,4 +10,6 @@
 + (UIFont *) weekdayHeaderFont;
 
 + (UIFont *) boldTitleFont;
+
++ (UIFont *) cellFont;
 @end

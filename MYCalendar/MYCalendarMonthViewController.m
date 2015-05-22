@@ -218,7 +218,6 @@ static NSString *const HeaderIdentifier = @"HeaderIdentifier";
 - (UICollectionViewCell *) collectionView:(UICollectionView *) collectionView cellForItemAtIndexPath:(NSIndexPath *) indexPath {
     MYDateCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:MyDateCollectionViewCellReuseIdentifier
                                                                                forIndexPath:indexPath];
-    cell.backgroundColor = [UIColor grayColor];
     NSDate *date = self.dateArray[indexPath.row];
     [cell updateWithDateComponents:[self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSWeekdayCalendarUnit)
                                                     fromDate:date]];

@@ -5,6 +5,9 @@
 
 #import <Masonry/View+MASAdditions.h>
 #import "MYDateCollectionViewCell.h"
+#import "UIColor+constant.h"
+#import "UIFont+constant.h"
+#import "UIDimen.h"
 
 @interface MYDateCollectionViewCell()
 @property (nonatomic, strong) UILabel *dateLabel;
@@ -14,11 +17,15 @@
 - (instancetype) initWithFrame:(CGRect) frame {
     self = [super initWithFrame:frame];
     if (self) {
+        self.contentView.backgroundColor = [UIColor backgroundLightGray];
+
         UILabel *dateLabel = [[UILabel alloc] init];
+        dateLabel.textColor = [UIColor textDarkGray];
+        dateLabel.font = [UIFont cellFont];
         [self.contentView addSubview:dateLabel];
         [dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.contentView);
-            make.top.equalTo(self.contentView);
+            make.left.equalTo(self.contentView).offset([UIDimen generalSpacing]);
+            make.top.equalTo(self.contentView).offset([UIDimen generalSpacing]);
         }];
         self.dateLabel = dateLabel;
 

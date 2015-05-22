@@ -18,11 +18,19 @@
                            alpha:1];
 }
 
++ (UIColor *) backgroundLightGray {
+    return [UIColor hexRGB:0xF2F2F2];
+}
+
 + (UIColor *) backgroundGray {
     return [UIColor hexRGB:0xE6E6E6];
 }
 
 + (UIColor *) backgroundRed {
     return [UIColor hexRGB:0x850038];
+}
+
++ (UIColor *) textDarkGray {
+    return [UIColor hexRGB:0x666666];
 }
 @end

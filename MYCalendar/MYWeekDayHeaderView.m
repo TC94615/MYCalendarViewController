@@ -9,7 +9,7 @@
 #import "UIFont+constant.h"
 #import "UIColor+constant.h"
 
-static const CGFloat WeekdayViewHeight = 35.0f;
+static const CGFloat WeekdayViewHeight = 15.0f;
 
 @implementation MYWeekDayHeaderView
 + (CGFloat) viewHeight {
@@ -21,6 +21,7 @@ static const CGFloat WeekdayViewHeight = 35.0f;
     if (self) {
         UILabel *sundayLabel = [[UILabel alloc] init];
         sundayLabel.text = @"SUN";
+        sundayLabel.textColor = [UIColor textDarkGray];
         sundayLabel.font = [UIFont weekdayHeaderFont];
         sundayLabel.textAlignment = NSTextAlignmentCenter;
         sundayLabel.backgroundColor = [UIColor backgroundGray];
@@ -33,6 +34,7 @@ static const CGFloat WeekdayViewHeight = 35.0f;
 
         UILabel *mondayLabel = [[UILabel alloc] init];
         mondayLabel.text = @"MON";
+        mondayLabel.textColor = [UIColor textDarkGray];
         mondayLabel.font = [UIFont weekdayHeaderFont];
         mondayLabel.textAlignment = NSTextAlignmentCenter;
         mondayLabel.backgroundColor = [UIColor backgroundGray];
@@ -43,10 +45,10 @@ static const CGFloat WeekdayViewHeight = 35.0f;
             make.size.mas_equalTo(self.itemSize);
         }];
 
-
         UILabel *tuesdayLabel = [[UILabel alloc] init];
         tuesdayLabel.text = @"TUE";
         tuesdayLabel.font = [UIFont weekdayHeaderFont];
+        tuesdayLabel.textColor = [UIColor textDarkGray];
         tuesdayLabel.textAlignment = NSTextAlignmentCenter;
         tuesdayLabel.backgroundColor = [UIColor backgroundGray];
         [self addSubview:tuesdayLabel];
@@ -59,6 +61,7 @@ static const CGFloat WeekdayViewHeight = 35.0f;
         UILabel *wednesdayLabel = [[UILabel alloc] init];
         wednesdayLabel.text = @"WED";
         wednesdayLabel.font = [UIFont weekdayHeaderFont];
+        wednesdayLabel.textColor = [UIColor textDarkGray];
         wednesdayLabel.textAlignment = NSTextAlignmentCenter;
         wednesdayLabel.backgroundColor = [UIColor backgroundGray];
         [self addSubview:wednesdayLabel];
@@ -71,6 +74,7 @@ static const CGFloat WeekdayViewHeight = 35.0f;
         UILabel *thursdayLabel = [[UILabel alloc] init];
         thursdayLabel.text = @"THU";
         thursdayLabel.font = [UIFont weekdayHeaderFont];
+        thursdayLabel.textColor = [UIColor textDarkGray];
         thursdayLabel.textAlignment = NSTextAlignmentCenter;
         thursdayLabel.backgroundColor = [UIColor backgroundGray];
         [self addSubview:thursdayLabel];
@@ -83,6 +87,7 @@ static const CGFloat WeekdayViewHeight = 35.0f;
         UILabel *fridayLabel = [[UILabel alloc] init];
         fridayLabel.text = @"FRI";
         fridayLabel.font = [UIFont weekdayHeaderFont];
+        fridayLabel.textColor = [UIColor textDarkGray];
         fridayLabel.textAlignment = NSTextAlignmentCenter;
         fridayLabel.backgroundColor = [UIColor backgroundGray];
         [self addSubview:fridayLabel];
@@ -95,6 +100,7 @@ static const CGFloat WeekdayViewHeight = 35.0f;
         UILabel *saturdayLabel = [[UILabel alloc] init];
         saturdayLabel.text = @"SAT";
         saturdayLabel.font = [UIFont weekdayHeaderFont];
+        saturdayLabel.textColor = [UIColor textDarkGray];
         saturdayLabel.textAlignment = NSTextAlignmentCenter;
         saturdayLabel.backgroundColor = [UIColor backgroundGray];
         [self addSubview:saturdayLabel];

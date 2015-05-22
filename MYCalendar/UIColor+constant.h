@@ -9,5 +9,10 @@
 @interface UIColor(constant)
 + (UIColor *) backgroundGray;
 
++ (UIColor *) backgroundLightGray;
+
 + (UIColor *) backgroundRed;
+
++ (UIColor *) textDarkGray;
+
 @end
