@@ -61,14 +61,29 @@
                                        animated:YES completion:nil];
 }
 
-- (void) didSelectItem:(MYDateCollectionViewCell *) cell {
-    NSLog(@">>>>>>>>>>>> cell = %@", cell);
-
+- (void) calendarCell:(MYDateCollectionViewCell *) cell forDate:(NSDate *) date {
+    NSDateComponents *dateComponents = [[NSCalendar currentCalendar] components:NSDayCalendarUnit
+                                                                       fromDate:date];
+    //Example that add subview to a specific cell
+    if (dateComponents.day == 10) {
+        UIView *view = [[UIView alloc] init];
+        view.backgroundColor = [UIColor redColor];
+        [cell addSubview:view];
+        [view mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(cell);
+            make.right.equalTo(cell);
+            make.size.mas_equalTo(CGSizeMake(10, 10));
+        }];
+    }
+    //Example end
 }
 
+- (void) didSelectCell:(MYDateCollectionViewCell *) cell {
+    NSLog(@">>>>>>>>>>>> cell = %@", cell);
+}
 
 - (MYCalendarMonthViewController *) viewControllerAtIndex:(NSInteger) index {
-    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
     calendar.locale = [NSLocale currentLocale];
     NSDate *date = [NSDate date];
     NSDateComponents *dateComponents = [calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit) fromDate:date];

@@ -13,7 +13,9 @@
 
 - (void) tapForwardButton:(NSInteger) index;
 
-- (void) didSelectItem:(MYDateCollectionViewCell *) cell;
+- (void) calendarCell:(MYDateCollectionViewCell *) cell forDate:(NSDate *) date;
+
+- (void) didSelectCell:(MYDateCollectionViewCell *) cell;
 @end
 
 @interface MYCalendarMonthViewController : UIViewController

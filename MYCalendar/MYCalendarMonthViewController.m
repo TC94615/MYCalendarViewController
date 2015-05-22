@@ -52,7 +52,6 @@ static NSString *const HeaderIdentifier = @"HeaderIdentifier";
     [super loadView];
 
     [self commonInitializer];
-//    self.title = [self.calendar.calendarIdentifier capitalizedString];
     UICollectionViewFlowLayout *collectionViewLayout = [[UICollectionViewFlowLayout alloc] init];
     self.collectionViewLayout = collectionViewLayout;
     collectionViewLayout.minimumInteritemSpacing = [UIDimen generalSpacing];
@@ -205,6 +204,7 @@ static NSString *const HeaderIdentifier = @"HeaderIdentifier";
                                                                                        forIndexPath:indexPath];
         headerView.delegate = self;
         NSDate *date = self.dateArray[indexPath.row];
+        NSLog(@">>>>>>>>>>>> date = %@", date);
         [headerView updateWithDate:date];
         return headerView;
     }
@@ -221,14 +221,16 @@ static NSString *const HeaderIdentifier = @"HeaderIdentifier";
     NSDate *date = self.dateArray[indexPath.row];
     [cell updateWithDateComponents:[self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSWeekdayCalendarUnit)
                                                     fromDate:date]];
-
+    if ([self.delegate respondsToSelector:@selector(calendarCell:forDate:)]) {
+        [self.delegate calendarCell:cell forDate:date];
+    }
     return cell;
 }
 
 - (void) collectionView:(UICollectionView *) collectionView didSelectItemAtIndexPath:(NSIndexPath *) indexPath {
-    MYDateCollectionViewCell *item = (MYDateCollectionViewCell *) [collectionView cellForItemAtIndexPath:indexPath];
-    if ([self.delegate respondsToSelector:@selector(didSelectItem:)]) {
-        [self.delegate didSelectItem:item];
+    MYDateCollectionViewCell *cell = (MYDateCollectionViewCell *) [collectionView cellForItemAtIndexPath:indexPath];
+    if ([self.delegate respondsToSelector:@selector(didSelectCell:)]) {
+        [self.delegate didSelectCell:cell];
     }
 }
 
