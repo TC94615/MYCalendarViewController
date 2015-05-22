@@ -20,8 +20,6 @@ static NSString *const HeaderIdentifier = @"HeaderIdentifier";
 @interface MYCalendarMonthViewController()<UICollectionViewDelegate, UICollectionViewDataSource, MYCollectionHeaderViewDelegate>
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSCalendar *calendar;
-@property (nonatomic, assign) dateFormat fromDate;
-@property (nonatomic, assign) dateFormat toDate;
 @property (nonatomic, strong) NSDate *today;
 @property (nonatomic, strong) UICollectionViewFlowLayout *collectionViewLayout;
 @property (nonatomic, strong) NSDate *monthShowing;
@@ -203,9 +201,7 @@ static NSString *const HeaderIdentifier = @"HeaderIdentifier";
                                                                                 withReuseIdentifier:HeaderIdentifier
                                                                                        forIndexPath:indexPath];
         headerView.delegate = self;
-        NSDate *date = self.dateArray[indexPath.row];
-        NSLog(@">>>>>>>>>>>> date = %@", date);
-        [headerView updateWithDate:date];
+        [headerView updateWithDate:self.monthShowing];
         return headerView;
     }
     return nil;
