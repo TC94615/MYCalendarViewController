@@ -11,6 +11,8 @@
 
 static NSString *const HeaderIdentifier = @"HeaderIdentifier";
 
+static const NSUInteger MaxDaysCount = 42;
+
 @interface MYCalendarMonthViewController()<UICollectionViewDelegate, UICollectionViewDataSource, MYCollectionHeaderViewDelegate>
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSCalendar *calendar;
@@ -25,7 +27,7 @@ static NSString *const HeaderIdentifier = @"HeaderIdentifier";
 - (instancetype) init {
     self = [super init];
     if (self) {
-        _calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+        _calendar = [NSCalendar currentCalendar];
         _calendar.locale = [NSLocale currentLocale];
         _monthShowing = [NSDate date];
     }
@@ -33,8 +35,10 @@ static NSString *const HeaderIdentifier = @"HeaderIdentifier";
 }
 
 - (instancetype) initWithDateComponents:(NSDateComponents *) dateComponents {
-    self = [self init];
+    self = [super init];
     if (self) {
+        _calendar = [NSCalendar currentCalendar];
+        _calendar.locale = [NSLocale currentLocale];
         _monthShowing = [_calendar dateFromComponents:dateComponents];
     }
     return self;
@@ -87,6 +91,11 @@ static NSString *const HeaderIdentifier = @"HeaderIdentifier";
 
     NSDate *beginDate = [self firstDay:self.monthShowing];
     NSDate *endDate = [self lastDay:self.monthShowing];
+    NSDateComponents *components = [self.calendar components:NSDayCalendarUnit fromDate:beginDate
+                                                      toDate:endDate options:nil];
+    if (components.day < MaxDaysCount) {
+        endDate = [self addAWeekToDate:endDate];
+    }
     NSMutableArray *dateArray = [@[] mutableCopy];
     while ([beginDate laterDate:endDate] != beginDate) {
         [dateArray addObject:beginDate];
@@ -166,6 +175,13 @@ static NSString *const HeaderIdentifier = @"HeaderIdentifier";
             break;
     }
     return [self.calendar dateFromComponents:lastDateComponentsInThisMonth];
+}
+
+- (NSDate *) addAWeekToDate:(NSDate *) date {
+    NSDateComponents *thisDateComponents = [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit)
+                                                            fromDate:date];
+    thisDateComponents.day += 7;
+    return [self.calendar dateFromComponents:thisDateComponents];
 }
 
 - (NSDate *) _nextDay:(NSDate *) date {
