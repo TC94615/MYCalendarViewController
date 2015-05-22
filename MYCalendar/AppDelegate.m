@@ -21,8 +21,11 @@
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
+
+    //Entry Point !
     MYCalendarViewController *controller = [[MYCalendarViewController alloc] init];
-//    MYCalendarMonthViewController *calendarView = [[MYCalendarMonthViewController alloc] init];
+    //Entry Point !
+
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
     self.window.rootViewController = navigationController;
     [self.window makeKeyAndVisible];

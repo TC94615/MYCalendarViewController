@@ -9,4 +9,8 @@
 + (UIFont *) weekdayHeaderFont {
     return [UIFont systemFontOfSize:10];
 }
+
++ (UIFont *) boldTitleFont {
+    return [UIFont boldSystemFontOfSize:16];
+}
 @end

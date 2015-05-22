@@ -8,6 +8,7 @@
 #import "UIDimen.h"
 #import "MYWeekDayHeaderView.h"
 #import "UIColor+constant.h"
+#import "UIFont+constant.h"
 
 static CGFloat const TitleLabelHeight = 20;
 
@@ -28,6 +29,7 @@ static CGFloat const TitleLabelHeight = 20;
         UILabel *titleLabel = [[UILabel alloc] init];
         titleLabel.backgroundColor = [UIColor backgroundRed];
         titleLabel.textColor = [UIColor whiteColor];
+        titleLabel.font = [UIFont boldTitleFont];
         titleLabel.textAlignment = NSTextAlignmentCenter;
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -84,8 +86,9 @@ static CGFloat const TitleLabelHeight = 20;
     }
 }
 
-- (void) updateWithDateComponents:(NSDateComponents *) components {
-    NSString *text = [NSString stringWithFormat:@"%i-%i", components.year, components.month];
-    self.titleLabel.text = text;
+- (void) updateWithDate:(NSDate *) date {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"MMMM yyyy";
+    self.titleLabel.text = [dateFormatter stringFromDate:date];
 }
 @end

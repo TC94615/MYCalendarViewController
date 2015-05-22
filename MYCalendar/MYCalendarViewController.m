@@ -8,7 +8,6 @@
 #import "View+MASAdditions.h"
 #import "UIDimen.h"
 
-
 @interface MYCalendarViewController()<UIPageViewControllerDelegate, UIPageViewControllerDataSource, MYCalendarMonthViewControllerDelegate>
 @property (nonatomic, strong) UIPageViewController *pageViewController;
 @end
@@ -78,14 +77,12 @@
 - (UIViewController *) pageViewController:(UIPageViewController *) pageViewController viewControllerBeforeViewController:(UIViewController *) viewController {
     NSInteger index = [(MYCalendarMonthViewController *) viewController indexNumber];
     index--;
-    NSLog(@">>>>>>>>>>>>> before");
     return [self viewControllerAtIndex:index];
 }
 
 - (UIViewController *) pageViewController:(UIPageViewController *) pageViewController viewControllerAfterViewController:(UIViewController *) viewController {
     NSInteger index = [(MYCalendarMonthViewController *) viewController indexNumber];
     index++;
-    NSLog(@">>>>>>>>>>>>> after");
     return [self viewControllerAtIndex:index];
 }
 

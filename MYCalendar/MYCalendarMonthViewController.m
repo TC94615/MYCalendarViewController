@@ -204,9 +204,8 @@ static NSString *const HeaderIdentifier = @"HeaderIdentifier";
                                                                                 withReuseIdentifier:HeaderIdentifier
                                                                                        forIndexPath:indexPath];
         headerView.delegate = self;
-        NSDateComponents *dateComponents = [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit)
-                                                            fromDate:self.dateArray[indexPath.row]];
-        [headerView updateWithDateComponents:dateComponents];
+        NSDate *date = self.dateArray[indexPath.row];
+        [headerView updateWithDate:date];
         return headerView;
     }
     return nil;

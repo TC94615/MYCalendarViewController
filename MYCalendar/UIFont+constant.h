@@ -8,4 +8,6 @@
 
 @interface UIFont(constant)
 + (UIFont *) weekdayHeaderFont;
+
++ (UIFont *) boldTitleFont;
 @end

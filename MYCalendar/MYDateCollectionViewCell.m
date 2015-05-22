@@ -29,5 +29,6 @@
 
 - (void) updateWithDateComponents:(NSDateComponents *) dateComponents {
     self.dateLabel.text = @(dateComponents.day).stringValue;
+
 }
 @end

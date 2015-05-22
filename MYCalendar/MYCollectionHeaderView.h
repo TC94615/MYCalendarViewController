@@ -15,7 +15,7 @@
 @interface MYCollectionHeaderView : UICollectionReusableView
 @property (nonatomic, strong) id<MYCollectionHeaderViewDelegate> delegate;
 
-- (void) updateWithDateComponents:(NSDateComponents *) components;
-
 + (CGFloat) viewHeight;
+
+- (void) updateWithDate:(NSDate *) date;
 @end
