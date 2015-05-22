@@ -9,12 +9,6 @@
 #import "MYCollectionHeaderView.h"
 #import "UIDimen.h"
 
-typedef struct {
-    NSUInteger year;
-    NSUInteger month;
-    NSUInteger day;
-} dateFormat;
-
 static NSString *const HeaderIdentifier = @"HeaderIdentifier";
 
 @interface MYCalendarMonthViewController()<UICollectionViewDelegate, UICollectionViewDataSource, MYCollectionHeaderViewDelegate>
@@ -74,7 +68,6 @@ static NSString *const HeaderIdentifier = @"HeaderIdentifier";
 
 }
 
-
 - (void) viewDidLoad {
     [super viewDidLoad];
 
@@ -94,8 +87,6 @@ static NSString *const HeaderIdentifier = @"HeaderIdentifier";
 
     NSDate *beginDate = [self firstDay:self.monthShowing];
     NSDate *endDate = [self lastDay:self.monthShowing];
-    NSLog(@">>>>>>>>>>>> beginDate = %@", beginDate);
-    NSLog(@">>>>>>>>>>>> endDate = %@", endDate);
     NSMutableArray *dateArray = [@[] mutableCopy];
     while ([beginDate laterDate:endDate] != beginDate) {
         [dateArray addObject:beginDate];
@@ -181,16 +172,6 @@ static NSString *const HeaderIdentifier = @"HeaderIdentifier";
     NSDateComponents *comps = [[NSDateComponents alloc] init];
     [comps setDay:1];
     return [self.calendar dateByAddingComponents:comps toDate:date options:0];
-}
-
-- (dateFormat) pickerDateFromDate:(NSDate *) date {
-    NSDateComponents *components = [self.calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay
-                                                    fromDate:date];
-    return (dateFormat) {
-      components.year,
-      components.month,
-      components.day
-    };
 }
 
 #pragma mark UICollectionViewDataSource
