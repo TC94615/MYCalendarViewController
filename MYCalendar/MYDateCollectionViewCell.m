@@ -28,8 +28,6 @@
             make.top.equalTo(self.contentView).offset([UIDimen generalSpacing]);
         }];
         self.dateLabel = dateLabel;
-
-
     }
     return self;
 }

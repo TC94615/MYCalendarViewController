@@ -24,7 +24,6 @@
 		45F56CAD895B12A9D9D27316 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FBBD084B21BDECFF12E980A /* libPods.a */; };
 		F8F85BAD1B0DCA1C00A994C9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F8F85BAC1B0DCA1C00A994C9 /* main.m */; };
 		F8F85BB01B0DCA1C00A994C9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F8F85BAF1B0DCA1C00A994C9 /* AppDelegate.m */; };
-		F8F85BB31B0DCA1C00A994C9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8F85BB21B0DCA1C00A994C9 /* ViewController.m */; };
 		F8F85BB81B0DCA1C00A994C9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F8F85BB71B0DCA1C00A994C9 /* Images.xcassets */; };
 		F8F85BC71B0DCA1C00A994C9 /* MYCalendarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F8F85BC61B0DCA1C00A994C9 /* MYCalendarTests.m */; };
 /* End PBXBuildFile section */
@@ -70,8 +69,6 @@
 		F8F85BAC1B0DCA1C00A994C9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		F8F85BAE1B0DCA1C00A994C9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		F8F85BAF1B0DCA1C00A994C9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		F8F85BB11B0DCA1C00A994C9 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		F8F85BB21B0DCA1C00A994C9 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		F8F85BB71B0DCA1C00A994C9 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		F8F85BC01B0DCA1C00A994C9 /* MYCalendarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MYCalendarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8F85BC51B0DCA1C00A994C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -153,8 +150,6 @@
 			children = (
 				F8F85BAE1B0DCA1C00A994C9 /* AppDelegate.h */,
 				F8F85BAF1B0DCA1C00A994C9 /* AppDelegate.m */,
-				F8F85BB11B0DCA1C00A994C9 /* ViewController.h */,
-				F8F85BB21B0DCA1C00A994C9 /* ViewController.m */,
 				F8F85BB71B0DCA1C00A994C9 /* Images.xcassets */,
 				F8F85BAA1B0DCA1C00A994C9 /* Supporting Files */,
 				4291273B07CE36D927375F8D /* MYCalendarMonthViewController.m */,
@@ -342,7 +337,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8F85BB31B0DCA1C00A994C9 /* ViewController.m in Sources */,
 				F8F85BB01B0DCA1C00A994C9 /* AppDelegate.m in Sources */,
 				F8F85BAD1B0DCA1C00A994C9 /* main.m in Sources */,
 				42912A4570482CA732AD7303 /* MYCalendarMonthViewController.m in Sources */,
