@@ -4,8 +4,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import<UIKit/UIKit.h>
+#import <UIKit/UIKit.h>
 
-@interface MYCalendarViewController : UIViewController
-
+@interface MYWeekDayHeaderView : UIView
++ (CGFloat) viewHeight;
 @end

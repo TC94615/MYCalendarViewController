@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "MYCalendarMonthViewController.h"
 #import "MYCalendarViewController.h"
 
 @interface AppDelegate()
@@ -20,8 +21,9 @@
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
-    MYCalendarViewController *calendarView = [[MYCalendarViewController alloc] init];
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:calendarView];
+    MYCalendarViewController *controller = [[MYCalendarViewController alloc] init];
+//    MYCalendarMonthViewController *calendarView = [[MYCalendarMonthViewController alloc] init];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
     self.window.rootViewController = navigationController;
     [self.window makeKeyAndVisible];
     return YES;

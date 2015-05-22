@@ -4,8 +4,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import<UIKit/UIKit.h>
+#import <UIKit/UIKit.h>
 
-@interface MYCalendarViewController : UIViewController
+@interface UIColor(constant)
++ (UIColor *) backgroundGray;
 
++ (UIColor *) backgroundRed;
 @end

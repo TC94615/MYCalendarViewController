@@ -1,226 +1,92 @@
 //
-// Created by 李道政 on 15/5/21.
+// Created by 李道政 on 15/5/22.
 // Copyright (c) 2015 oSolve. All rights reserved.
 //
 
 #import "MYCalendarViewController.h"
+#import "MYCalendarMonthViewController.h"
 #import "View+MASAdditions.h"
-#import "MYDateCollectionViewCell.h"
+#import "UIDimen.h"
 
-typedef struct {
-    NSUInteger year;
-    NSUInteger month;
-    NSUInteger day;
-} dateFormat;
 
-@interface MYCalendarViewController()<UICollectionViewDelegate, UICollectionViewDataSource>
-@property (nonatomic, strong) UICollectionView *collectionView;
-@property (nonatomic, strong) NSCalendar *calendar;
-@property (nonatomic, assign) dateFormat fromDate;
-@property (nonatomic, assign) dateFormat toDate;
-@property (nonatomic, strong) NSDate *today;
-@property (nonatomic, strong) UICollectionViewFlowLayout *collectionViewLayout;
-@property (nonatomic, strong) NSDate *monthShowing;
-@property (nonatomic, strong) NSArray *dateArray;
+@interface MYCalendarViewController()<UIPageViewControllerDelegate, UIPageViewControllerDataSource, MYCalendarMonthViewControllerDelegate>
+@property (nonatomic, strong) UIPageViewController *pageViewController;
 @end
 
 @implementation MYCalendarViewController
 
-- (void) loadView {
-    [super loadView];
+- (instancetype) init {
+    self = [super init];
+    if (self) {
+        UIPageViewController *pageViewController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll
+                                                                                   navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal
+                                                                                                 options:@{
+                                                                                                   UIPageViewControllerOptionInterPageSpacingKey : @([UIDimen generalSpacing])}];
+        pageViewController.delegate = self;
+        pageViewController.dataSource = self;
 
-    [self commonInitializer];
+        MYCalendarMonthViewController *monthViewController = [self viewControllerAtIndex:0];
+        NSArray *viewControllers = @[monthViewController];
+        [pageViewController setViewControllers:viewControllers
+                                     direction:UIPageViewControllerNavigationDirectionForward
+                                      animated:YES completion:nil];
 
-//    self.title = [self.calendar.calendarIdentifier capitalizedString];
-
-
-
-    UICollectionViewFlowLayout *collectionViewLayout = [[UICollectionViewFlowLayout alloc] init];
-    self.collectionViewLayout = collectionViewLayout;
-    collectionViewLayout.minimumInteritemSpacing = 2.0f;
-    collectionViewLayout.minimumLineSpacing = 2.0f;
-    collectionViewLayout.itemSize = [self itemSize];
-    UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero
-                                                          collectionViewLayout:collectionViewLayout];
-    collectionView.delegate = self;
-    collectionView.dataSource = self;
-    [self.view addSubview:collectionView];
-    [collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
-    }];
-    self.collectionView = collectionView;
-    [collectionView registerClass:[MYDateCollectionViewCell class]
-       forCellWithReuseIdentifier:MyDateCollectionViewCellReuseIdentifier];
-}
-
-- (void) viewDidLoad {
-    [super viewDidLoad];
-
-    [self.collectionView reloadData];
-}
-
-
-- (CGSize) itemSize {
-    NSUInteger numberOfItemsInTheSameRow = 7;
-    CGFloat totalInteritemSpacing = self.collectionViewLayout.minimumInteritemSpacing * (numberOfItemsInTheSameRow - 1);
-
-    CGFloat selfItemWidth = (CGRectGetWidth(self.view.frame) - totalInteritemSpacing) / numberOfItemsInTheSameRow;
-    selfItemWidth = (CGFloat) (floor(selfItemWidth * 1000) / 1000);
-    CGFloat selfItemHeight = 70.0f;
-    return (CGSize) {selfItemWidth, selfItemHeight};
-}
-
-- (void) commonInitializer {
-    self.calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    self.calendar.locale = [NSLocale currentLocale];
-    self.monthShowing = [NSDate date];
-    NSDate *beginDate = [self firstDay:self.monthShowing];
-    NSDate *endDate = [self lastDay:self.monthShowing];
-    NSLog(@">>>>>>>>>>>> beginDate = %@", beginDate);
-    NSLog(@">>>>>>>>>>>> endDate = %@", endDate);
-    NSMutableArray *dateArray = [@[] mutableCopy];
-    while ([beginDate laterDate:endDate] != beginDate) {
-        NSDateComponents *todayYearMonthDayComponents = [self.calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekday)
-                                                                         fromDate:beginDate];
-        NSDate *thisDay = [self.calendar dateFromComponents:todayYearMonthDayComponents];
-        [dateArray addObject:beginDate];
-
-        beginDate = [self _nextDay:beginDate];
+        [self addChildViewController:pageViewController];
+        [self.view addSubview:pageViewController.view];
+        [pageViewController.view mas_makeConstraints:^(MASConstraintMaker *make) {
+            UIEdgeInsets insets = UIEdgeInsetsMake(64, 0, 0, 0);
+            make.edges.equalTo(self.view).insets(insets);
+        }];
+        [pageViewController didMoveToParentViewController:self];
+        self.pageViewController = pageViewController;
     }
-    self.dateArray = [dateArray copy];
-
-    NSDateComponents *todayYearMonthDayComponents = [self.calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay)
-                                                                     fromDate:[NSDate date]];
-    _today = [self.calendar dateFromComponents:todayYearMonthDayComponents];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(significantTimeChange:)
-                                                 name:UIApplicationSignificantTimeChangeNotification
-                                               object:nil];
+    return self;
 }
 
-- (NSDate *) firstDay:(NSDate *) date {
-    NSDateComponents *thisDateComponents = [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit)
-                                                            fromDate:date];
-    thisDateComponents.day = 1;
-    NSDate *firstDateInThisMonth = [self.calendar dateFromComponents:thisDateComponents];
-    NSDateComponents *firstDateComponentsInThisMonth =
-      [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSWeekdayCalendarUnit)
-                       fromDate:firstDateInThisMonth];
-    switch (firstDateComponentsInThisMonth.weekday) {
-        case 1:
-            [firstDateComponentsInThisMonth setDay:firstDateComponentsInThisMonth.day - 7];
-            break;
-        case 2:
-            [firstDateComponentsInThisMonth setDay:firstDateComponentsInThisMonth.day - 1];
-            break;
-        case 3:
-            [firstDateComponentsInThisMonth setDay:firstDateComponentsInThisMonth.day - 2];
-            break;
-        case 4:
-            [firstDateComponentsInThisMonth setDay:firstDateComponentsInThisMonth.day - 3];
-            break;
-        case 5:
-            [firstDateComponentsInThisMonth setDay:firstDateComponentsInThisMonth.day - 4];
-            break;
-        case 6:
-            [firstDateComponentsInThisMonth setDay:firstDateComponentsInThisMonth.day - 5];
-            break;
-        case 7:
-            [firstDateComponentsInThisMonth setDay:firstDateComponentsInThisMonth.day - 6];
-            break;
-        default:
-            break;
-    }
-    return [self.calendar dateFromComponents:firstDateComponentsInThisMonth];
+#pragma mark MYCalendarMonthViewControllerDelegate
+
+- (void) tapBackButton:(NSInteger) index {
+    MYCalendarMonthViewController *monthViewController = [self viewControllerAtIndex:index - 1];
+    NSArray *viewControllers = @[monthViewController];
+    [self.pageViewController setViewControllers:viewControllers
+                                      direction:UIPageViewControllerNavigationDirectionReverse
+                                       animated:YES completion:nil];
 }
 
-- (NSDate *) lastDay:(NSDate *) date {
-    NSDateComponents *thisDateComponents = [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit)
-                                                            fromDate:date];
-    thisDateComponents.day = 0;
-    thisDateComponents.month = thisDateComponents.month + 1;
-    NSDate *lastDateInThisMonth = [self.calendar dateFromComponents:thisDateComponents];
-    NSDateComponents *lastDateComponentsInThisMonth =
-      [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSWeekdayCalendarUnit)
-                       fromDate:lastDateInThisMonth];
-    switch (lastDateComponentsInThisMonth.weekday) {
-        case 1:
-            [lastDateComponentsInThisMonth setDay:lastDateComponentsInThisMonth.day + 7];
-            break;
-        case 2:
-            [lastDateComponentsInThisMonth setDay:lastDateComponentsInThisMonth.day + 6];
-            break;
-        case 3:
-            [lastDateComponentsInThisMonth setDay:lastDateComponentsInThisMonth.day + 5];
-            break;
-        case 4:
-            [lastDateComponentsInThisMonth setDay:lastDateComponentsInThisMonth.day + 4];
-            break;
-        case 5:
-            [lastDateComponentsInThisMonth setDay:lastDateComponentsInThisMonth.day + 3];
-            break;
-        case 6:
-            [lastDateComponentsInThisMonth setDay:lastDateComponentsInThisMonth.day + 2];
-            break;
-        case 7:
-            [lastDateComponentsInThisMonth setDay:lastDateComponentsInThisMonth.day + 1];
-            break;
-        default:
-            break;
-    }
-    return [self.calendar dateFromComponents:lastDateComponentsInThisMonth];
+- (void) tapForwardButton:(NSInteger) index {
+    MYCalendarMonthViewController *monthViewController = [self viewControllerAtIndex:index + 1];
+    NSArray *viewControllers = @[monthViewController];
+    [self.pageViewController setViewControllers:viewControllers
+                                      direction:UIPageViewControllerNavigationDirectionForward
+                                       animated:YES completion:nil];
 }
 
-//- (NSDate *) _firstDayOfMonthContainingDate:(NSDate *) date {
-//    NSDateComponents *comps = [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit)
-//                                               fromDate:date];
-//    comps.day = 1;
-//    return [self.calendar dateFromComponents:comps];
-//}
-
-//- (NSDate *) _firstDayOfNextMonthContainingDate:(NSDate *) date {
-//    NSDateComponents *comps = [self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit)
-//                                               fromDate:date];
-//    comps.day = 1;
-//    comps.month = comps.month + 1;
-//    return [self.calendar dateFromComponents:comps];
-//}
-
-- (NSDate *) _nextDay:(NSDate *) date {
-    NSDateComponents *comps = [[NSDateComponents alloc] init];
-    [comps setDay:1];
-    return [self.calendar dateByAddingComponents:comps toDate:date options:0];
+- (MYCalendarMonthViewController *) viewControllerAtIndex:(NSInteger) index {
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    calendar.locale = [NSLocale currentLocale];
+    NSDate *date = [NSDate date];
+    NSDateComponents *dateComponents = [calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit) fromDate:date];
+    dateComponents.month += index;
+    MYCalendarMonthViewController *childViewController = [[MYCalendarMonthViewController alloc] initWithDateComponents:dateComponents];
+    childViewController.delegate = self;
+    childViewController.indexNumber = index;
+    return childViewController;
 }
 
-- (dateFormat) pickerDateFromDate:(NSDate *) date {
-    NSDateComponents *components = [self.calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay
-                                                    fromDate:date];
-    return (dateFormat) {
-      components.year,
-      components.month,
-      components.day
-    };
+#pragma mark UIPageViewControllerDataSource
+
+- (UIViewController *) pageViewController:(UIPageViewController *) pageViewController viewControllerBeforeViewController:(UIViewController *) viewController {
+    NSInteger index = [(MYCalendarMonthViewController *) viewController indexNumber];
+    index--;
+    NSLog(@">>>>>>>>>>>>> before");
+    return [self viewControllerAtIndex:index];
 }
 
-#pragma mark UICollectionViewDataSource
-
-- (void) collectionView:(UICollectionView *) collectionView willDisplaySupplementaryView:(UICollectionReusableView *) view forElementKind:(NSString *) elementKind atIndexPath:(NSIndexPath *) indexPath {
-
-}
-
-- (NSInteger) collectionView:(UICollectionView *) collectionView numberOfItemsInSection:(NSInteger) section {
-    return self.dateArray.count;
-}
-
-- (UICollectionViewCell *) collectionView:(UICollectionView *) collectionView cellForItemAtIndexPath:(NSIndexPath *) indexPath {
-    MYDateCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:MyDateCollectionViewCellReuseIdentifier
-                                                                               forIndexPath:indexPath];
-    cell.backgroundColor = [UIColor grayColor];
-    NSDate *date = self.dateArray[indexPath.row];
-    [cell updateWithDateComponents:[self.calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSWeekdayCalendarUnit)
-                                                    fromDate:date]];
-    return cell;
+- (UIViewController *) pageViewController:(UIPageViewController *) pageViewController viewControllerAfterViewController:(UIViewController *) viewController {
+    NSInteger index = [(MYCalendarMonthViewController *) viewController indexNumber];
+    index++;
+    NSLog(@">>>>>>>>>>>>> after");
+    return [self viewControllerAtIndex:index];
 }
 
 @end
