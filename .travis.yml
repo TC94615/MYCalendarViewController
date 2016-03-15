@@ -1,3 +1,4 @@
 language: objective-c
-xcode_project: MYCalendar.xcodeproj # path to your xcodeproj folder
+xcode_workspace: MYCalendar.xcworkspace
 xcode_scheme: MYCalendarTests
+xcode_sdk: iphonesimulator9.3
