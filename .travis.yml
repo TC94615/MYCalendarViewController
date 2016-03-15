@@ -6,7 +6,9 @@ xcode_sdk: iphonesimulator9.2
 notifications:
   email:
     recipients:
-        - tclee0117@gmail.com
-        - tclee@osolve.com
+    - tclee0117@gmail.com
+    - tclee@osolve.com
     on_success: always
     on_failure: always
+  slack:
+    secure: MY32zjVzGi2z1CzxpY+vgWdKY1U+6vfORdJPGLNlWstmMvMid6YgmSl0qPfRyvw05kmrchyIpGtmwFRrFllLbY2r62cX9uj2SMd06XZcd3SBZXgrR145ZB5og+ova/BpfgdgEabg2oLKnLPuUpaEjzM5+MwBFXh2Gb5EogYztUSWdnFoJduwJ8BQhATs2J7LGSPmIHMkdpOPMEqN9MM//2cUTp9wh97e/SaHO/tzUW0Cz4qFShwQ71EcFKPPJ66akQpP7k39s+MYPSYl4AjnAtoRX2ItEw2OB0L9fDDD15abhd0WEwTFMFQjZsW3KzpTUIrrRFbeNy7pvK3KvCZ3Woji11CwNtpP6+EWNdgQLuNC62jhDf+VeuM4RpGx4FJC0RESYaFDCt/66hD7MYBP8xDwLQKPzlW3T3Hs/w6cqrtBIREYRYjGXs0tt8Jk+L3WgbHCbVFif9E+Wv/88NPyGstP8ff/k8xSBeGMI0L+DZ7Gw3/gt2TVCKfrllDlVBty2hBYN+RJGlspPn9/sBpRjDxtf0c2tjLUquqO+FHspeVZ6SDlLrRQakmjJPg04q84fkXzrdF18OFZci1CsuhJ2peNow8GtWPcjOHts6FPzrwSqKOII02N/UoAAdpcIWXMv90kGL+n6Y//ZdA2qjnmfHmv1nS6owZggyDNuu9n74c=
